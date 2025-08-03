@@ -19,17 +19,19 @@ jobs:
         sudo apt install -y python3-pip zip unzip git openjdk-17-jdk build-essential libffi-dev libssl-dev libncurses5 curl
         pip install --upgrade pip
         pip install buildozer cython
-        mkdir -p ~/.android && echo '### User Agreements' > ~/.android/repositories.cfg
     
-        # INSTALLA command-line tools Android (per usare sdkmanager)
-        sudo mkdir -p /opt/android-sdk/cmdline-tools
-        cd /opt/android-sdk/cmdline-tools
-        sudo curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        sudo unzip -q commandlinetools.zip -d latest
-        export ANDROID_HOME=/opt/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-
-        # ACCETTA LICENZE
+        # Scarica gli Android Command Line Tools
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        cd $HOME/android-sdk/cmdline-tools
+        curl -o tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+        unzip -q tools.zip -d tools
+    
+        # Variabili d’ambiente (valide in questo script)
+        export ANDROID_SDK_ROOT=$HOME/android-sdk
+        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools/bin:$PATH
+    
+        # Accetta le licenze
+        mkdir -p ~/.android && echo '### User Agreements' > ~/.android/repositories.cfg
         yes | sdkmanager --licenses
 
 
