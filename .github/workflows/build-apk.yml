@@ -20,19 +20,19 @@ jobs:
         pip install --upgrade pip
         pip install buildozer cython
     
-        # Scarica gli Android Command Line Tools
+        # Scarica Android Command Line Tools e imposta ANDROID_HOME
         mkdir -p $HOME/android-sdk/cmdline-tools
-        cd $HOME/android-sdk/cmdline-tools
-        curl -o tools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip -q tools.zip -d tools
+        curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+        unzip commandlinetools.zip -d $HOME/android-sdk/cmdline-tools
+        mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/tools
     
-        # Variabili d’ambiente (valide in questo script)
         export ANDROID_SDK_ROOT=$HOME/android-sdk
         export PATH=$ANDROID_SDK_ROOT/cmdline-tools/tools/bin:$PATH
     
-        # Accetta le licenze
         mkdir -p ~/.android && echo '### User Agreements' > ~/.android/repositories.cfg
-        yes | sdkmanager --licenses
+        yes | $ANDROID_SDK_ROOT/cmdline-tools/tools/bin/sdkmanager --licenses
+    
+
 
 
     - name: Initialize buildozer (optional but safe)
